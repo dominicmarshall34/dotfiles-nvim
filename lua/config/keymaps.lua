@@ -31,9 +31,9 @@ keymap("n", "n", "nzzzv", opts)
 keymap("n", "N", "Nzzzv", opts)
 
 -- Better yank
-keymap("n", "<leader>y", '"+y', { desc = "Yank to clipboard" })
-keymap("v", "<leader>y", '"+y', { desc = "Yank to clipboard" })
-keymap("n", "<leader>Y", '"+Y', { desc = "Yank line to clipboard" })
+keymap("n", "<leader>yy", '"+y', { desc = "Yank to clipboard" })
+keymap("v", "<leader>yy", '"+y', { desc = "Yank to clipboard" })
+keymap("n", "<leader>yl", '"+Y', { desc = "Yank line to clipboard" })
 
 -- Yank entire file to clipboard
 keymap("n", "<leader>ya", 'gg"+yG', { desc = "Yank all to clipboard" })
