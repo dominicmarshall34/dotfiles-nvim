@@ -31,8 +31,12 @@ return {
 
       -- Keymaps
       vim.keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
-      vim.keymap.set("n", "<leader>ef", "<cmd>NvimTreeFindFileToggle<CR>",
-        { desc = "Toggle file explorer on current file" })
+      vim.keymap.set(
+        "n",
+        "<leader>ef",
+        "<cmd>NvimTreeFindFileToggle<CR>",
+        { desc = "Toggle file explorer on current file" }
+      )
       vim.keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" })
       vim.keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" })
     end,
@@ -70,13 +74,18 @@ return {
       keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Fuzzy find files in cwd" })
       keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Fuzzy find recent files" })
       keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
-      keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Find string under cursor in cwd" })
+      keymap.set(
+        "n",
+        "<leader>fc",
+        "<cmd>Telescope grep_string<cr>",
+        { desc = "Find string under cursor in cwd" }
+      )
       keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find buffers" })
       keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Find help" })
     end,
   },
 
-  -- Which-key
+  -- Which-key (v3 spec)
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
@@ -84,9 +93,87 @@ return {
       vim.o.timeout = true
       vim.o.timeoutlen = 300
     end,
-    opts = {},
-  },
+    opts = {
+      -- Optional: modern hints & a small delay feel nice
+      preset = "modern",
+      delay = 300,
+    },
+    config = function(_, opts)
+      local wk = require("which-key")
+      wk.setup(opts)
 
+      -- <leader> groups (no remaps created; just labels/groups)
+      wk.add({
+        -- Clipboard / yank
+        { "<leader>y",  group = "Clipboard" },
+        { "<leader>yy", desc = "Yank to clipboard",              mode = "n" },
+        { "<leader>yl", desc = "Yank line to clipboard",         mode = "n" },
+        { "<leader>ya", desc = "Yank all to clipboard",          mode = "n" },
+
+        -- Explorer (nvim-tree)
+        { "<leader>e",  group = "Explorer" },
+        { "<leader>ee", desc = "Toggle file explorer",           mode = "n" },
+        { "<leader>ef", desc = "Toggle on current file",         mode = "n" },
+        { "<leader>ec", desc = "Collapse file explorer",         mode = "n" },
+        { "<leader>er", desc = "Refresh file explorer",          mode = "n" },
+
+        -- Telescope finders
+        { "<leader>f",  group = "Find (Telescope)" },
+        { "<leader>ff", desc = "Find files",                     mode = "n" },
+        { "<leader>fr", desc = "Recent files",                   mode = "n" },
+        { "<leader>fs", desc = "Live grep",                      mode = "n" },
+        { "<leader>fc", desc = "Grep word under cursor",         mode = "n" },
+        { "<leader>fb", desc = "Buffers",                        mode = "n" },
+        { "<leader>fh", desc = "Help tags",                      mode = "n" },
+
+        -- Git (gitsigns)
+        { "<leader>h",  group = "Git (hunks)" },
+        { "<leader>hs", desc = "Stage hunk",                     mode = { "n", "v" } },
+        { "<leader>hr", desc = "Reset hunk",                     mode = { "n", "v" } },
+        { "<leader>hS", desc = "Stage buffer",                   mode = "n" },
+        { "<leader>hR", desc = "Reset buffer",                   mode = "n" },
+        { "<leader>hu", desc = "Undo stage hunk",                mode = "n" },
+        { "<leader>hp", desc = "Preview hunk",                   mode = "n" },
+        { "<leader>hb", desc = "Blame line (full)",              mode = "n" },
+        { "<leader>hB", desc = "Toggle line blame",              mode = "n" },
+        { "<leader>hd", desc = "Diff this",                      mode = "n" },
+        { "<leader>hD", desc = "Diff this ~",                    mode = "n" },
+
+        -- Format (conform)
+        { "<leader>m",  group = "Format" },
+        { "<leader>mp", desc = "Format file/range",              mode = { "n", "v" } },
+
+        -- Code / LSP actions
+        { "<leader>c",  group = "Code" },
+        { "<leader>ca", desc = "Code action",                    mode = { "n", "v" } },
+
+        { "<leader>r",  group = "LSP" },
+        { "<leader>rn", desc = "Rename LSP style...",            mode = "n" },
+        { "<leader>rs", desc = "Restart LSP",                    mode = "n" },
+
+        { "<leader>d",  group = "Diagnostics" },
+        { "<leader>dl", desc = "Line diagnostics (float)",       mode = "n" },
+        { "<leader>dd", desc = "Buffer diagnostics (Telescope)", mode = "n" },
+      })
+
+      -- LSP navigation under plain `g` (again: labels only)
+      wk.add({
+        { "g",  group = "Goto (LSP)" },
+        { "gd", desc = "Definitions",      mode = "n" },
+        { "gD", desc = "Declaration",      mode = "n" },
+        { "gi", desc = "Implementations",  mode = "n" },
+        { "gt", desc = "Type definitions", mode = "n" },
+        { "gR", desc = "References",       mode = "n" },
+      })
+
+      -- Other non-leader keys you want labeled
+      wk.add({
+        { "[d", desc = "Prev diagnostic",     mode = "n" },
+        { "]d", desc = "Next diagnostic",     mode = "n" },
+        { "K",  desc = "Hover documentation", mode = "n" },
+      })
+    end,
+  },
   -- Git signs
   {
     "lewis6991/gitsigns.nvim",

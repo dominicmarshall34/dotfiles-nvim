@@ -24,6 +24,8 @@ return {
           "rust_analyzer",
           "gopls",
           "intelephense",
+          "vue_ls",
+          "eslint",
         },
         automatic_installation = true,
       })
@@ -41,8 +43,8 @@ return {
         keymap("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
         keymap({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
         keymap("n", "<leader>rn", vim.lsp.buf.rename, opts)
-        keymap("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts)
-        keymap("n", "<leader>d", vim.diagnostic.open_float, opts)
+        keymap("n", "<leader>dd", "<cmd>Telescope diagnostics bufnr=0<CR>", opts)
+        keymap("n", "<leader>dl", vim.diagnostic.open_float, opts)
         keymap("n", "[d", vim.diagnostic.goto_prev, opts)
         keymap("n", "]d", vim.diagnostic.goto_next, opts)
         keymap("n", "K", vim.lsp.buf.hover, opts)
@@ -103,6 +105,15 @@ return {
             },
           },
         },
+      })
+      lspconfig.vue_ls.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        filetypes = { "vue" },
+      })
+      lspconfig.eslint.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
       })
       -- Configure diagnostics
       vim.diagnostic.config({
@@ -172,6 +183,7 @@ return {
           typescript = { "prettier" },
           javascriptreact = { "prettier" },
           typescriptreact = { "prettier" },
+          vue = { "prettier" },
           css = { "prettier" },
           html = { "prettier" },
           json = { "prettier" },
