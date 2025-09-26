@@ -71,12 +71,12 @@ handle_existing_config() {
         print_warning "Existing Neovim configuration found at $NVIM_CONFIG_DIR"
         echo -n "Do you want to overwrite it? (y/N): "
         read -r response
-        
+
         if [[ ! "$response" =~ ^[Yy]$ ]]; then
             print_status "Installation cancelled"
             exit 0
         fi
-        
+
         print_status "Removing existing Neovim configuration..."
         rm -rf "$NVIM_CONFIG_DIR"
         print_success "Existing configuration removed"
@@ -168,7 +168,7 @@ main() {
     echo "  3. Wait for all plugins to install"
     echo "  4. Restart Neovim to ensure everything is working properly"
     echo
-    print_status "Enjoy your new Neovim setup! 🚀"
+    print_status "Enjoy your new Neovim setup!"
 }
 
 # Show help if requested
